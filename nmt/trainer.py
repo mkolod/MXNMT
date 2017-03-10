@@ -77,6 +77,8 @@ def train():
                                  arg_params=_arg_params,
                                  )
 
+    # Plot it
+#    mx.viz.plot_network(model)
     # Fit it
     model.fit(X=data_train,
               eval_metric=mx.metric.np(Perplexity),

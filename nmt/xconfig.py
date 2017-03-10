@@ -17,25 +17,25 @@ bos_word = '<s>'
 eos_word = '</s>'
 unk_word = '<unk>'
 special_words = {unk_word: 1, bos_word: 2, eos_word: 3}
-source_vocab_path = os.path.join(data_root, 'zh', 'zh.vocab.pkl')
+source_vocab_path = os.path.join(data_root, 'es', 'es.vocab.pkl')
 target_vocab_path = os.path.join(data_root, 'en', 'en.vocab.pkl')
 
 # data set
-train_source = os.path.join(data_root, 'zh', 'zh.txt')
+train_source = os.path.join(data_root, 'es', 'es.txt')
 train_target = os.path.join(data_root, 'en', 'en.txt')
-train_max_samples = 100000
+train_max_samples = 100000 #1000
 dev_source = os.path.join(data_root, 'dev', 'IWSLT.dev.txt')
 dev_target = os.path.join(data_root, 'invalid', 'invalid')
 dev_output = os.path.join(data_root, 'dev', 'dev.out')
-dev_max_samples = 100000
+dev_max_samples = 1000 #100000
 test_source = os.path.join(data_root, 'test', 'IWSLT.test.txt')
 test_gold = os.path.join(data_root, 'test', 'IWSLT.test.txt')
 
 bleu_ref_number = 7
 
 # model parameter
-batch_size = 128
-bucket_stride = 10
+batch_size = 10
+bucket_stride = 10 
 buckets = []
 for i in range(10, 70, bucket_stride):
     for j in range(10, 70, bucket_stride):
@@ -45,27 +45,29 @@ num_embed = 512  # embedding dimension
 num_lstm_layer = 1  # number of lstm layer
 
 # training parameter
-num_epoch = 60
-learning_rate = 1
+num_epoch = 1 #60
+learning_rate = 0.01
 momentum = 0.1
 dropout = 0.5
-show_every_x_batch = 100
+show_every_x_batch = 1
 eval_per_x_batch = 400
 eval_start_epoch = 4
 
 # model save option
-model_save_name = os.path.join(model_root, "zh-en-iwslt")
+model_save_name = os.path.join(model_root, "zh-es-iwslt")
 model_save_freq = 1  # every x epoch
 checkpoint_name = os.path.join(model_root, 'checkpoint_model')
 checkpoint_freq_batch = 1000  # save checkpoint model every x batch
 
+cpus = [mx.context.cpu(_i) for _i in range(2)]
+
 # train device
-train_device = [mx.context.gpu(0)]
+train_device = cpus # [mx.context.cpu(0)] # gpu(0)
 # test device
-test_device = mx.context.gpu(0)
+test_device = mx.context.cpu(0)    # gpu(0)
 
 # test parameter
-model_to_load_prefix = os.path.join(model_root, 'zh-en-iwslt')
+model_to_load_prefix = os.path.join(model_root, 'zh-es-iwslt')
 model_to_load_number = 1
 use_beam_search = True
 beam_size = 12
